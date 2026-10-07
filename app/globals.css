@@ -452,6 +452,30 @@ footer {
   color: #8c9887;
   gap: 12px;
 }
+.built-with {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+.sidebar-bottom .exit-primary,
+footer .exit-primary {
+  color: #355e43;
+}
+footer small {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+}
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  align-items: flex-start;
+}
+.mobile-only {
+  display: none;
+}
 .welcome {
   background: #fff;
   border: 1px solid #e0e7de;
@@ -682,6 +706,13 @@ footer {
   footer {
     flex-direction: column;
     line-height: 1.7;
+  }
+  .mobile-only {
+    display: inline;
+  }
+  .footer-links a {
+    font-size: 12px;
+    font-weight: 600;
   }
   .welcome {
     padding: 27px 22px;

@@ -7,6 +7,9 @@ import {
   SwitchWorkspaceButton,
 } from "@/components/onetwoagent-identity";
 export const dynamic = "force-dynamic";
+const PRODUCT_URL = "https://onetwoagent.com/ai-customer-support-for-nextjs";
+const SOURCE_URL =
+  "https://github.com/One-Two-Agent-LLC/nextjs-ai-customer-support-starter";
 export default async function Page() {
   const session = await getCurrentSession();
   const workspaces = session
@@ -53,9 +56,11 @@ export default async function Page() {
         </nav>
         <div className="sidebar-bottom">
           <span className="tiny-label">BUILT WITH</span>
-          <a href="https://onetwoagent.com/ai-customer-support-for-nextjs">
-            OneTwoAgent + Next.js ↗
+          <span className="built-with">OneTwoAgent + Next.js</span>
+          <a className="exit-primary" href={PRODUCT_URL}>
+            Add this support to your app →
           </a>
+          <a href={SOURCE_URL}>View source ↗</a>
           <p>
             Your app. Your data.
             <br />
@@ -265,10 +270,23 @@ export default async function Page() {
           )}
         </section>
         <footer>
-          <span>Demo data · No real billing or external actions</span>
-          <a href="https://docs.onetwoagent.com/docs/widget/logged-in-users">
-            Integration documentation ↗
-          </a>
+          <div>
+            <span>Demo data · No real billing or external actions</span>
+            <small>
+              Open-source starter code (MIT). The AI support is OneTwoAgent.
+            </small>
+          </div>
+          <div className="footer-links">
+            <a className="exit-primary mobile-only" href={PRODUCT_URL}>
+              Add this support to your app →
+            </a>
+            <a className="mobile-only" href={SOURCE_URL}>
+              View source ↗
+            </a>
+            <a href="https://docs.onetwoagent.com/docs/widget/logged-in-users">
+              Integration documentation ↗
+            </a>
+          </div>
         </footer>
       </main>
     </div>
