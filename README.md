@@ -6,7 +6,7 @@ A small App Router SaaS demo using the published OneTwoAgent integration. Your a
 
 This repository does not include a shared OneTwoAgent business, credentials, free AI allowance or operator login. A OneTwoAgent workspace and a PostgreSQL database are required to connect the real widget. See [service pricing](https://onetwoagent.com/pricing).
 
-[Try the hosted Northstar preview](https://ota-northstar-demo.vercel.app). This demonstration currently uses a time-limited OneTwoAgent trial; permanent availability is not promised. Your deployment requires your own workspace and service allowance.
+[Try the maintained Northstar demo](https://ota-northstar-demo.vercel.app). OneTwoAgent maintains this synthetic demo with its own paid service allowance. Your deployment requires your own workspace and service allowance.
 
 ## What this starter demonstrates
 
