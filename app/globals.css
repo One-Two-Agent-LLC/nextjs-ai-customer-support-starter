@@ -79,23 +79,14 @@ p {
   color: #397956;
 }
 .demo-pill {
-  font-size: 9px;
-  letter-spacing: 1px;
+  font-size: 10px;
   background: #eef3ed;
   color: #6b7e70;
   padding: 5px 6px;
   border-radius: 5px;
 }
-.workspace-label,
-.tiny-label {
-  font-size: 10px;
-  letter-spacing: 1.7px;
-  color: #839188;
-}
-.workspace-label {
-  margin: 47px 0 17px;
-}
 .workspace-current {
+  margin-top: 40px;
   display: flex;
   gap: 11px;
   align-items: center;
@@ -189,13 +180,6 @@ header {
   justify-content: space-between;
   margin: 42px 0 30px;
   gap: 15px;
-}
-.eyebrow {
-  font-size: 10px;
-  font-weight: 600;
-  color: #6d8a72;
-  letter-spacing: 1.8px;
-  margin-bottom: 12px;
 }
 .intro p {
   margin-top: 12px;
@@ -297,8 +281,7 @@ header {
   background: #fafbf9;
   border-top: 1px solid #edf0ea;
   border-bottom: 1px solid #edf0ea;
-  font-size: 9px;
-  letter-spacing: 1px;
+  font-size: 11px;
   color: #8d9a8e;
 }
 .project-row {
@@ -387,61 +370,97 @@ header {
   align-items: center;
 }
 .integration {
-  margin: 40px 0 20px;
-  padding: 26px 0;
-  scroll-margin-top: 20px;
-}
-.integration-state {
-  font-size: 10px;
-  border: 1px solid #dce5d9;
-  border-radius: 20px;
-  padding: 7px 10px;
-  color: #678168;
-}
-.flow {
-  display: grid;
-  grid-template-columns: 1fr 25px 1fr 25px 1fr;
-  gap: 12px;
-  margin: 28px 0;
-}
-.flow b {
-  font-size: 10px;
-  color: #9bad94;
-  display: block;
-  margin-bottom: 9px;
-}
-.flow strong {
-  font-size: 12px;
-}
-.flow p {
-  font-size: 11px;
-  margin-top: 5px;
-}
-.flow > span {
-  align-self: center;
-  color: #b3c1b0;
-}
-.try {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
   align-items: center;
-  font-size: 10px;
+  gap: 12px 22px;
+  margin: 34px 0 18px;
+  padding: 18px 22px;
+  border: 1px solid #e1e8dd;
+  border-radius: 12px;
+  background: #fbfcfa;
+  scroll-margin-top: 20px;
 }
-.try strong {
-  color: #72866e;
+.integration h2 {
+  font-size: 14px;
+  letter-spacing: -0.2px;
+}
+.integration-state {
+  margin-left: auto;
+  font-size: 11px;
+  border: 1px solid #dce5d9;
+  border-radius: 20px;
+  padding: 6px 10px;
+  color: #678168;
+}
+.pipeline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  color: #6f7f72;
+}
+.pipeline li + li::before {
+  content: "→";
   margin-right: 6px;
+  color: #b3c1b0;
 }
-.try span {
-  padding: 8px 10px;
-  border: 1px solid #dfe7dc;
-  border-radius: 6px;
-  background: #f2f6ef;
+.ask {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: -12px 0 26px;
+}
+.ask-label {
+  font-size: 12px;
+  color: #72866e;
+  margin-right: 4px;
+}
+.ask-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 13px;
+  border: 1px solid #cfdccb;
+  border-radius: 999px;
+  background: #fff;
+  color: #2f5a3d;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+.ask-chip span {
+  color: #8aa78d;
+  transition: transform 150ms ease;
+}
+.ask-chip:hover {
+  background: #f1f6ef;
+  border-color: #a9c2a6;
+}
+.ask-chip:hover span {
+  transform: translateX(2px);
+}
+.ask-chip:focus-visible {
+  outline: 2px solid #355e43;
+  outline-offset: 2px;
+}
+.ask-chip--static {
+  cursor: default;
   color: #72816e;
+  background: #f2f6ef;
+  border-color: #dfe7dc;
 }
 .setup-note {
+  flex-basis: 100%;
   font-size: 12px;
-  margin-top: 18px;
 }
 footer {
   border-top: 1px solid #e1e7dd;
@@ -569,7 +588,6 @@ footer small {
   .brand-icon {
     font-size: 26px;
   }
-  .workspace-label,
   .workspace-current,
   .sidebar-bottom,
   .sidebar nav {
@@ -676,32 +694,14 @@ footer small {
   .change {
     padding: 23px;
   }
-  .integration .section-heading {
-    display: block;
+  .integration {
+    padding: 16px;
   }
   .integration-state {
-    display: inline-block;
-    margin-top: 14px;
+    margin-left: 0;
   }
-  .flow {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-  .flow > span {
-    display: none;
-  }
-  .flow > div {
-    border-left: 2px solid #dce6d4;
-    padding-left: 15px;
-  }
-  .flow b {
-    margin-bottom: 5px;
-  }
-  .try {
-    gap: 7px;
-  }
-  .try strong {
-    width: 100%;
+  .ask {
+    margin-top: -8px;
   }
   footer {
     flex-direction: column;
@@ -728,9 +728,6 @@ footer small {
   }
   .quiet {
     font-size: 10px;
-  }
-  .eyebrow {
-    font-size: 9px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

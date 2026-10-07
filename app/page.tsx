@@ -1,15 +1,21 @@
 import { getCurrentSession } from "@/lib/auth";
 import { query } from "@/lib/db";
-import { connected } from "@/lib/onetwoagent/config";
+import { config, connected } from "@/lib/onetwoagent/config";
 import { usage, readView } from "@/lib/onetwoagent/account-data";
 import {
   SignOutButton,
   SwitchWorkspaceButton,
 } from "@/components/onetwoagent-identity";
+import { AskSupport } from "@/components/ask-support";
 export const dynamic = "force-dynamic";
 const PRODUCT_URL = "https://onetwoagent.com/ai-customer-support-for-nextjs";
 const SOURCE_URL =
   "https://github.com/One-Two-Agent-LLC/nextjs-ai-customer-support-starter";
+const QUESTIONS = [
+  "How many credits do I have?",
+  "Which project needs attention?",
+  "Can I speak to a person?",
+] as const;
 export default async function Page() {
   const session = await getCurrentSession();
   const workspaces = session
@@ -31,16 +37,13 @@ export default async function Page() {
       <aside className="sidebar">
         <a className="brand" href="/" aria-label="Northstar home">
           <span className="brand-icon">✳</span> northstar
-          <span className="demo-pill">DEMO</span>
+          <span className="demo-pill">demo</span>
         </a>
-        <div className="workspace-label">WORKSPACE</div>
         <div className="workspace-current">
           <span className="avatar">N</span>
           <div>
             <strong>{active?.name ?? "Your demo workspace"}</strong>
-            <small>
-              {active ? `${active.plan} plan` : "A private space to explore"}
-            </small>
+            <small>{active ? `${active.plan} plan` : "Sample data"}</small>
           </div>
         </div>
         <nav aria-label="Main">
@@ -51,21 +54,15 @@ export default async function Page() {
             <span aria-hidden="true">▱</span> Projects
           </a>
           <a href="#integration">
-            <span aria-hidden="true">⌘</span> Support integration
+            <span aria-hidden="true">⌘</span> Support
           </a>
         </nav>
         <div className="sidebar-bottom">
-          <span className="tiny-label">BUILT WITH</span>
-          <span className="built-with">OneTwoAgent + Next.js</span>
+          <span className="built-with">Built with OneTwoAgent + Next.js</span>
           <a className="exit-primary" href={PRODUCT_URL}>
             Add this support to your app →
           </a>
           <a href={SOURCE_URL}>View source ↗</a>
-          <p>
-            Your app. Your data.
-            <br />
-            Your permissions.
-          </p>
         </div>
       </aside>
       <main id="main">
@@ -75,31 +72,31 @@ export default async function Page() {
           </div>
           <span className="session-indicator">
             <i />
-            {session ? "Isolated demo session" : "Demo preview"}
+            {session ? "Private demo session" : "Demo"}
           </span>
         </header>
         <section className="intro">
           <div>
-            <div className="eyebrow">YOUR WORKSPACE, IN FOCUS</div>
-            <h1>
-              {session ? "Good to see you." : "A small app. Real support."}
-            </h1>
+            <h1>{session ? active?.name : "A small app. Real support."}</h1>
             <p>
               {session
-                ? "Everything your support agent is allowed to know, right here."
-                : "Explore signed-in support without connecting your real accounts."}
+                ? "Your plan, usage and projects. Support sees the same."
+                : "Signed-in support on sample data. No real accounts."}
             </p>
           </div>
           {session && <SignOutButton />}
         </section>
+        {session && (
+          <AskSupport
+            questions={QUESTIONS}
+            publicId={connected ? config.publicId : null}
+          />
+        )}
         {!session ? (
           <section className="welcome">
             <div className="welcome-icon">✳</div>
             <h2>Make yourself at home.</h2>
-            <p>
-              Start a private demo with sample projects and usage. Your session
-              and workspaces are separate from every other visitor.
-            </p>
+            <p>A private workspace with sample projects and usage.</p>
             <form method="post" action="/login">
               <button
                 className="primary"
@@ -110,8 +107,8 @@ export default async function Page() {
             </form>
             <small>
               {process.env.DEMO_ACCESS_ENABLED === "true"
-                ? "No email or password. Synthetic data only. Session expires in one hour."
-                : "Demo access is disabled. Enable it in your own deployment to begin."}
+                ? "No sign-up. Sample data. Ends after an hour."
+                : "Demo access is off. Enable it in your own deployment."}
             </small>
           </section>
         ) : (
@@ -123,7 +120,7 @@ export default async function Page() {
                   {active?.plan}
                   <em>Demo</em>
                 </div>
-                <p>Plan recorded in your app database</p>
+                <p>From your app database</p>
               </section>
               <section className="card stat">
                 <span>Credits remaining</span>
@@ -143,25 +140,22 @@ export default async function Page() {
                 </p>
               </section>
               <section className="card stat">
-                <span>Projects in this workspace</span>
+                <span>Projects</span>
                 <div className="metric">{projects?.records.length ?? 0}</div>
-                <p>Visible only within your current workspace</p>
+                <p>In this workspace only</p>
               </section>
             </div>
             <section className="card projects" id="projects">
               <div className="section-heading">
-                <div>
-                  <h2>Projects</h2>
-                  <p>A little context makes support more useful.</p>
-                </div>
+                <h2>Projects</h2>
                 <span className="count">
                   {projects?.records.length ?? 0} projects
                 </span>
               </div>
               <div className="project-head">
-                <span>PROJECT</span>
-                <span>STATUS</span>
-                <span>OPEN TASKS</span>
+                <span>Project</span>
+                <span>Status</span>
+                <span>Open tasks</span>
               </div>
               {projects?.records.length ? (
                 projects.records.map((r, i) => (
@@ -197,23 +191,16 @@ export default async function Page() {
             <div className="two-col">
               <section className="card change">
                 <div className="card-icon">↻</div>
-                <h2>See a fresh account read</h2>
-                <p>
-                  Record 10 demo credits of activity, then ask the widget how
-                  many credits you have now. Your app changes the data; support
-                  can only read it.
-                </p>
+                <h2>Use 10 credits</h2>
+                <p>Then ask support how many are left.</p>
                 <form method="post" action="/activity">
-                  <button className="secondary">Record demo activity</button>
+                  <button className="secondary">Record activity</button>
                 </form>
               </section>
               <section className="card change">
                 <div className="card-icon">⇄</div>
-                <h2>Try another workspace</h2>
-                <p>
-                  Switch context and ask about your projects again. The widget
-                  forgets the previous identity before the switch.
-                </p>
+                <h2>Switch workspace</h2>
+                <p>Support follows you to the other one.</p>
                 {workspaces
                   .filter((w) => w.id !== session.workspaceId)
                   .map((w) => (
@@ -228,50 +215,25 @@ export default async function Page() {
           </>
         )}
         <section className="integration" id="integration">
-          <div className="section-heading">
-            <div>
-              <div className="eyebrow">UNDER THE HOOD</div>
-              <h2>Your backend stays in control.</h2>
-            </div>
-            <span className="integration-state">
-              {connected ? "Widget configured" : "Widget not connected"}
-            </span>
-          </div>
-          <div className="flow">
-            <div>
-              <b>01</b>
-              <strong>Your app session</strong>
-              <p>Identity comes from the server.</p>
-            </div>
-            <span aria-hidden="true">→</span>
-            <div>
-              <b>02</b>
-              <strong>Approved account reads</strong>
-              <p>Usage and projects, scoped to you.</p>
-            </div>
-            <span aria-hidden="true">→</span>
-            <div>
-              <b>03</b>
-              <strong>Real support + your team</strong>
-              <p>Answers in the widget. Takeover in Inbox.</p>
-            </div>
-          </div>
-          <div className="try">
-            <strong>Try asking</strong>
-            <span>“How many credits do I have?”</span>
-            <span>“Which project needs attention?”</span>
-            <span>“Can I speak to a person?”</span>
-          </div>
+          <h2>Your backend stays in control.</h2>
+          <ol className="pipeline" aria-label="How support connects">
+            <li>Your session</li>
+            <li>Read-only account data</li>
+            <li>OneTwoAgent support</li>
+            <li>Your team</li>
+          </ol>
+          <span className="integration-state">
+            {connected ? "Widget connected" : "Widget not connected"}
+          </span>
           {!connected && (
             <p className="setup-note">
-              Run the OneTwoAgent CLI to connect your own workspace. No
-              simulated chatbot is shown.
+              Run the OneTwoAgent CLI to connect your own workspace.
             </p>
           )}
         </section>
         <footer>
           <div>
-            <span>Demo data · No real billing or external actions</span>
+            <span>Sample data · no real billing</span>
             <small>
               Open-source starter code (MIT). The AI support is OneTwoAgent.
             </small>
@@ -284,7 +246,7 @@ export default async function Page() {
               View source ↗
             </a>
             <a href="https://docs.onetwoagent.com/docs/widget/logged-in-users">
-              Integration documentation ↗
+              Integration docs ↗
             </a>
           </div>
         </footer>
