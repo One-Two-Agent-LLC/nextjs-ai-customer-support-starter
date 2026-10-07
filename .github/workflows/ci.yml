@@ -1,0 +1,47 @@
+name: Starter checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: starter
+          POSTGRES_PASSWORD: local-test-only
+          POSTGRES_DB: ota_starter_test
+        ports: [5432:5432]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      STARTER_TEST_DATABASE_URL: postgresql://starter:local-test-only@localhost:5432/ota_starter_test
+      APP_DATABASE_URL: postgresql://starter:local-test-only@localhost:5432/ota_starter_test
+      DEMO_ACCESS_ENABLED: "true"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: npm run typecheck
+      - run: npm run check:bundle
+      - run: npx playwright install --with-deps chromium
+      - run: |
+          npm run start -- --hostname 127.0.0.1 --port 3417 > /tmp/starter.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:3417/ > /dev/null && break; sleep 1; done
+          npm run test:browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-evidence
+          path: |
+            output/playwright/
+            test-results/

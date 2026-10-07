@@ -1,0 +1,10 @@
+{
+  "endpoint": "https://YOUR-DEPLOYMENT/api/onetwoagent/account",
+  "sections": ["usage"],
+  "views": [
+    {
+      "id": "projects",
+      "description": "Projects visible to the customer in the active workspace, including status and open tasks."
+    }
+  ]
+}

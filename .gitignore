@@ -1,0 +1,17 @@
+node_modules/
+.next/
+.vercel/
+.env*
+!.env.example
+.onetwoagent.json
+onetwoagent.account-lookup.json
+lib/onetwoagent/connection.generated.json
+playwright-report/
+test-results/
+output/
+*.tsbuildinfo
+.agents/
+.claude/
+.vercel
+
+skills-lock.json

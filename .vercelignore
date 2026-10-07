@@ -1,0 +1,15 @@
+node_modules
+.next
+.env*
+!.env.example
+.onetwoagent.json
+onetwoagent.account-lookup.json
+lib/onetwoagent/connection.generated.json
+test-results
+playwright-report
+output
+.agents
+.claude
+
+skills-lock.json
+.github
